@@ -1,11 +1,10 @@
 <?php
-$serverName = "localhost";  // Or your SQL Server instance name
+$serverName = "localhost";
 $connectionOptions = array(
     "Database" => "LoginDB",
     "Uid" => "localhost",
     "PWD" => "Claire1504"
 );
- 
 $conn = sqlsrv_connect($serverName, $connectionOptions);
  
 if (!$conn) {
@@ -15,15 +14,16 @@ if (!$conn) {
 $username = $_POST['username'];
 $password = $_POST['password'];
  
-$sql = "SELECT * FROM Users WHERE Username = ? AND Password = ?";
-$params = array($username, $password);
+$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
  
+$sql = "INSERT INTO Users (Username, Password) VALUES (?, ?)";
+$params = array($username, $hashedPassword);
 $stmt = sqlsrv_query($conn, $sql, $params);
  
-if ($stmt && sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
-    echo "Login successful!";
+if ($stmt) {
+    echo "User registered successfully!";
 } else {
-    echo "Invalid credentials.";
+    echo "Error registering user.";
 }
  
 sqlsrv_close($conn);
