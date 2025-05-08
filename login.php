@@ -2,7 +2,7 @@
 $serverName = "localhost";
 $connectionOptions = array(
     "Database" => "LoginDB",
-    "Uid" => "localhost",
+    //"Uid" => "localhost",
     "PWD" => "Claire1504"
 );
 $conn = sqlsrv_connect($serverName, $connectionOptions);
